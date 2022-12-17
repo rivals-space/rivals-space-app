@@ -3,3 +3,9 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+    
+connect_mastodon_check:
+    path: /oauth/mastodon-check
+
+app_logout:
+    path: /logout

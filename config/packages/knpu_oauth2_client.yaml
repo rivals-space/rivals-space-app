@@ -1,0 +1,19 @@
+knpu_oauth2_client:
+    clients:
+        mastodon_oauth:
+            type: generic
+            provider_class: Lrf141\OAuth2\Client\Provider\Mastodon
+
+            # optional: a class that extends OAuth2Client
+            # client_class: Some\Custom\Client
+
+            # optional: if your provider has custom constructor options
+            # provider_options: {}
+
+            # now, all the normal options!
+            client_id: '%env(string:MASTODON_CLIENT_ID)%'
+            client_secret: '%env(string:MASTODON_CLIENT_SECRET)%'
+            provider_options:
+                instance: "%env(string:MASTODON_BASE_URL)%"
+            redirect_route: connect_mastodon_check
+            redirect_params: {}
