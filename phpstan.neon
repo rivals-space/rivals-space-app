@@ -1,0 +1,36 @@
+parameters:
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+    level: 7
+    excludePaths:
+        - src/Kernel.php
+        - tests
+    checkGenericClassInNonGenericObjectType: false
+    banned_code:
+        nodes:
+            # enable detection of echo
+            -
+                type: Stmt_Echo
+                functions: null
+            -
+                type: Expr_Eval
+                functions: null
+            -
+                type: Expr_FuncCall
+                functions:
+                    - dd
+                    - debug_backtrace
+                    - dump
+                    - exec
+                    - passthru
+                    - phpinfo
+                    - print_r
+                    - proc_open
+                    - shell_exec
+                    - system
+                    - var_dump
+    ignoreErrors:
+        -
+            '#Call to an undefined method Doctrine.*Repository.*#'
+        -
+            "#Interface IteratorAggregate specifies template type TKey of interface Traversable as int but it's already specified as mixed.#"

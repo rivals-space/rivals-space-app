@@ -1,15 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
-use KnpU\OAuth2ClientBundle\Exception\MissingAuthorizationCodeException;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
-use Lrf141\OAuth2\Client\Provider\Mastodon;
 use Lrf141\OAuth2\Client\Provider\MastodonResourceOwner;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,20 +26,18 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class MastodonAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
-
     use TargetPathTrait;
 
     public function __construct(
-        private ClientRegistry         $clientRegistry,
+        private ClientRegistry $clientRegistry,
         private EntityManagerInterface $em,
-        private RouterInterface        $router,
-    )
-    {
+        private RouterInterface $router,
+    ) {
     }
 
     public function supports(Request $request): ?bool
     {
-        return $request->attributes->get('_route') === 'connect_mastodon_check';
+        return 'connect_mastodon_check' === $request->attributes->get('_route');
     }
 
     private function fetchAccessToken(OAuth2ClientInterface $client, $options = []): AccessToken
@@ -58,7 +55,7 @@ class MastodonAuthenticator extends AbstractAuthenticator implements Authenticat
         $client = $this->getMastodonClient();
 
         return new SelfValidatingPassport(
-            userBadge: new UserBadge($accessToken->getToken(), function () use ($accessToken, $client): User {
+            userBadge: new UserBadge($accessToken->getToken(), function () use ($accessToken): User {
                 /** @var MastodonResourceOwner $mastodonUser */
                 $mastodonUser = $this->getMastodonClient()->fetchUserFromToken($accessToken);
                 $user = $this->em->getRepository(User::class)->findOneByMastodonId($mastodonUser->getId());
@@ -101,7 +98,6 @@ class MastodonAuthenticator extends AbstractAuthenticator implements Authenticat
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         throw $exception;
-
     }
 
     public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
@@ -109,7 +105,7 @@ class MastodonAuthenticator extends AbstractAuthenticator implements Authenticat
         return $this->getMastodonClient()
             ->redirect(
                 scopes: [
-                    'scope' => 'read'
+                    'scope' => 'read',
                 ]
             );
     }

@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
+        "easycorp/easyadmin-bundle": "^4.4",
         "knpuniversity/oauth2-client-bundle": "^2.10",
         "league/oauth2-client": "^2.6",
         "lrf141/oauth2-mastodon": "^1.0",
@@ -26,17 +27,27 @@
         "symfony/yaml": "6.2.*"
     },
     "require-dev": {
+        "ekino/phpstan-banned-code": "^1.0",
+        "friendsofphp/php-cs-fixer": "^3.13",
+        "phpstan/extension-installer": "^1.2",
+        "phpstan/phpstan": "^1.9",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-strict-rules": "^1.4",
+        "phpstan/phpstan-symfony": "^1.2",
+        "psalm/plugin-symfony": "*",
         "roave/security-advisories": "dev-latest",
         "symfony/debug-bundle": "6.2.*",
         "symfony/maker-bundle": "^1.48",
         "symfony/stopwatch": "6.2.*",
         "symfony/var-dumper": "6.2.*",
-        "symfony/web-profiler-bundle": "6.2.*"
+        "symfony/web-profiler-bundle": "6.2.*",
+        "vimeo/psalm": "^5.2"
     },
     "config": {
         "allow-plugins": {
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "phpstan/extension-installer": true
         },
         "sort-packages": true
     },

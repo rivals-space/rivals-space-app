@@ -1,0 +1,23 @@
+name: PHP Checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  
+  php-cs-fixer:
+    name: PHP
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: php-actions/composer@v6
+      - name: PHP-CS-Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga
+        with:
+          args: --diff --dry-run
+      - uses: php-actions/phpstan@v3
+        with:
+          path: src/
+      - name: Psalm
+        uses: docker://vimeo/psalm-github-actions

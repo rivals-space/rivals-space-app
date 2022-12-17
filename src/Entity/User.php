@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\UserRepository;
@@ -79,8 +81,6 @@ class User implements UserInterface
         return $this;
     }
 
-
-
     public function getUsername(): ?string
     {
         return $this->username;
@@ -105,8 +105,9 @@ class User implements UserInterface
         return $this;
     }
 
-    public function eraseCredentials():void
-    {}
+    public function eraseCredentials(): void
+    {
+    }
 
     public function getMastodonAccessToken(): ?AccessToken
     {
